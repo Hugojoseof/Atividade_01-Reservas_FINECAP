@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Detalhes da Reserva</h1>
+  <p><strong>CNPJ:</strong> {{ reserva.cnpj }}</p>
+  <p><strong>Nome da Empresa:</strong> {{ reserva.nome_empresa }}</p>
+  <p><strong>Categoria:</strong> {{ reserva.categoria_empresa }}</p>
+  <p><strong>Quitado:</strong> {{ reserva.quitado }}</p>
+  <a href="{% url 'listagem' %}">Voltar para a listagem</a>
+</body>
+</html>

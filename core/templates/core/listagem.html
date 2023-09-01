@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Listagem de Reservas</h1>
+    <a href="{% url 'reserva_criar'%}">Cadastrar reserva</a>
+    <hr>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>CNPJ</th>
+          <th>Nome da Empresa</th>
+          <th>Categoria</th>
+          <th>Quitado</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reserva in reservas %}
+          <tr>
+            <td>{{ reserva.cnpj }}</td>
+            <td>{{ reserva.nome_empresa }}</td>
+            <td>{{ reserva.categoria_empresa }}</td>
+            <td>{{ reserva.quitado }}</td>
+            <td>
+              <a href="{% url 'detalhes_reserva' reserva.id %}" >detalhes</a>
+             <br>
+              <a href="{% url 'excluir_reserva' reserva.id %}">excluir</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</body>
+</html>
