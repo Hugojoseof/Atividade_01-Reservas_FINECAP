@@ -13,11 +13,27 @@
 </head>
 
 <body>
-  <h1>Listagem de Reservas</h1>
+  <div style="display: flex; align-items: center; justify-content: space-between; margin: 2%;">
+    <h1>Listagem de Reservas</h1>
+    <form method="GET" action="{% url 'listagem' %}">
+      <label for="search">Pesquisar: </label>
+      <input
+      type="text"
+      class="form-control"
+      name="q"
+      id="search"
+      placeholder="Pesquise por nome ...."
+      value="{{query}}"
+    />
+    </form>
+  </div>
+  <hr>
   <div class="container">
+    <div style="margin-top: 2%;">
 
-    <a href="{% url 'reserva_criar'%}">Cadastrar reserva</a>
-    <hr>
+      <a href="{% url 'reserva_criar'%}"><button class="btn btn-primary"> Cadastrar reserva</button></a>
+    </div>
+    <br>
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -25,6 +41,7 @@
           <th scope="col">Nome da Empresa</th>
           <th scope="col">Categoria</th>
           <th scope="col">Quitado</th>
+          <th scope="col">Valor</th>
           <th scope="col">Data reserva</th>
           <th scope="col">Ações</th>
         </tr>
@@ -36,11 +53,20 @@
           <td>{{ reserva.nome_empresa }}</td>
           <td>{{ reserva.categoria_empresa }}</td>
           <td>{{ reserva.quitado }}</td>
+          <td>{{ reserva.stand.valor }}</td>
           <td>{{ reserva.data_reserva }}</td>
           <td>
-            <a href="{% url 'detalhes_reserva' reserva.id %}">detalhes</a>
-            <br>
-            <a href="{% url 'excluir_reserva' reserva.id %}">excluir</a>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <a href="{% url 'detalhes_reserva' reserva.id %}"><button class="btn btn-secondary">
+                detalhar
+              </button></a>
+              <br>
+              <a href="{% url 'excluir_reserva' reserva.id %}"> <button class="btn btn-secondary">
+  
+                excluir
+              </button>
+            </a>
+            </div>
           </td>
         </tr>
         {% endfor %}

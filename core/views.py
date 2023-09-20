@@ -1,8 +1,10 @@
-import datetime
-from django.shortcuts import render,redirect, get_object_or_404
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 from .models import Reserva
 from .forms import ReservaForm
 # Create your views here.
+
 
 def reserva_criar(request):
     if request.method == 'POST':
@@ -17,16 +19,22 @@ def reserva_criar(request):
 
     return render(request, "core/cadastro.html", {'form': form})
 
-def listagem(request):
-    reservas = Reserva.objects.all()
-    test = Reserva.objects.filter(stand__valor__gte = 300)
 
-    print(test)
+def listagem(request):
+    query = request.GET.get("q") if request.GET.get("q") is not None else ""
+    reservas = Reserva.objects.filter(
+        Q(nome_empresa__icontains=query) |
+        Q(data_reserva__icontains=query) |
+        Q(stand__valor__icontains=query)
+    )
+    print(reservas[0].stand.valor)
     return render(request, 'core/listagem.html', {'reservas': reservas})
 
+
 def detalhes_reserva(request, reserva_id):
-    reserva = Reserva.objects.get(id=reserva_id)
+    reserva = get_object_or_404(Reserva, pk=reserva_id)
     return render(request, 'core/detalhes_reserva.html', {'reserva': reserva})
+
 
 def excluir_reserva(request, reserva_id):
     reserva = Reserva.objects.get(id=reserva_id)
