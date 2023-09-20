@@ -25,6 +25,7 @@
           <th scope="col">Nome da Empresa</th>
           <th scope="col">Categoria</th>
           <th scope="col">Quitado</th>
+          <th scope="col">Data reserva</th>
           <th scope="col">Ações</th>
         </tr>
       </thead>
@@ -35,6 +36,7 @@
           <td>{{ reserva.nome_empresa }}</td>
           <td>{{ reserva.categoria_empresa }}</td>
           <td>{{ reserva.quitado }}</td>
+          <td>{{ reserva.data_reserva }}</td>
           <td>
             <a href="{% url 'detalhes_reserva' reserva.id %}">detalhes</a>
             <br>

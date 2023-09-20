@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render,redirect, get_object_or_404
 from .models import Reserva
 from .forms import ReservaForm
@@ -18,6 +19,9 @@ def reserva_criar(request):
 
 def listagem(request):
     reservas = Reserva.objects.all()
+    test = Reserva.objects.filter(stand__valor__gte = 300)
+
+    print(test)
     return render(request, 'core/listagem.html', {'reservas': reservas})
 
 def detalhes_reserva(request, reserva_id):
