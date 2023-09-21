@@ -22,13 +22,26 @@ def reserva_criar(request):
 
 def listagem(request):
     query = request.GET.get("q") if request.GET.get("q") is not None else ""
-    reservas = Reserva.objects.filter(
-        Q(nome_empresa__icontains=query) |
-        Q(data_reserva__icontains=query) |
-        Q(stand__valor__icontains=query)
+    quitado = request.GET.get("quitado") if request.GET.get("quitado") == 'on' else None
+    print(quitado)
+    
+
+    if quitado is not None:
+        reservas = Reserva.objects.filter(
+        Q(nome_empresa__icontains=query)  |
+        Q(data_reserva__contains=query) |
+        Q(stand__valor__icontains=query) 
+    ).filter(
+        quitado=bool(quitado)
     )
-    print(reservas[0].stand.valor)
-    return render(request, 'core/listagem.html', {'reservas': reservas})
+    else:
+        reservas = Reserva.objects.filter(
+        Q(nome_empresa__icontains=query)  |
+        Q(data_reserva__contains=query) |
+        Q(stand__valor__icontains=query) 
+    )  
+
+    return render(request, 'core/listagem.html', {'reservas': reservas, 'query': query, "query_quitado": quitado })
 
 
 def detalhes_reserva(request, reserva_id):
