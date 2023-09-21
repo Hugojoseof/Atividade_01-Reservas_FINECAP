@@ -9,11 +9,11 @@ from .forms import ReservaForm
 def reserva_criar(request):
     if request.method == 'POST':
         form = ReservaForm(request.POST, request.FILES)
-        
+
         if form.is_valid():
             form.save()
             return redirect('listagem')
-            
+
     else:
         form = ReservaForm()
 
@@ -22,26 +22,20 @@ def reserva_criar(request):
 
 def listagem(request):
     query = request.GET.get("q") if request.GET.get("q") is not None else ""
-    quitado = request.GET.get("quitado") if request.GET.get("quitado") == 'on' else None
-    print(quitado)
-    
+    quitado = request.GET.get("quitado")
 
-    if quitado is not None:
+    if request.GET.get("q") is not None:
         reservas = Reserva.objects.filter(
-        Q(nome_empresa__icontains=query)  |
-        Q(data_reserva__contains=query) |
-        Q(stand__valor__icontains=query) 
-    ).filter(
-        quitado=bool(quitado)
-    )
+            Q(nome_empresa__icontains=query) |
+            Q(data_reserva__contains=query) |
+            Q(stand__valor__icontains=query)
+        ).filter(
+            quitado=bool(quitado)
+        )
     else:
-        reservas = Reserva.objects.filter(
-        Q(nome_empresa__icontains=query)  |
-        Q(data_reserva__contains=query) |
-        Q(stand__valor__icontains=query) 
-    )  
+        reservas = Reserva.objects.all()
 
-    return render(request, 'core/listagem.html', {'reservas': reservas, 'query': query, "query_quitado": quitado })
+    return render(request, 'core/listagem.html', {'reservas': reservas, 'query': query})  # noqa
 
 
 def detalhes_reserva(request, reserva_id):
