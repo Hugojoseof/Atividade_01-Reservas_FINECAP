@@ -13,23 +13,45 @@
 </head>
 
 <body>
-  <div style="display: flex; align-items: center; justify-content: space-between; margin: 2%;">
-    <h1>Listagem de Reservas</h1>
-    <form method="GET" action="{% url 'listagem' %}">
-      <label for="search">Pesquisar: </label>
-      <input
-      type="text"
-      class="form-control"
-      name="q"
-      id="search"
-      placeholder="Pesquise por nome ...."
-      value="{{query}}"
-    />
-    <br>
-    <label for="quitado">Quitado:</label>
-    <input type="checkbox" name="quitado" id="quitado" class="form-control"/>
-    <br>
-    <button type="submit" class="form-control">Filtrar</button>
+  <div >
+    <h1 style="text-align: center;">Listagem de Reservas</h1>
+  </div>
+  <br>
+  <div class="container">
+
+    <form method="GET" action="{% url 'listagem' %}" style="display: flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap;">
+      <div class="form-group">
+        <label for="search">Nome: </label>
+        <input
+        type="text"
+        class="form-control"
+        name="q"
+        id="search"
+        value="{{query}}"
+      />
+      </div>
+      <div class="form-group">
+        <label for="valor">Valor:</label>
+        <input type="number" name="valor" id="valor" class="form-control" value="{{valor}}"/>
+      </div>
+      <div class="form-group">
+        <label for="data_reserva">Data reserva:</label>
+        <input type="date" name="data_reserva" id="data_reserva" class="form-control" value="{{data_reserva}}"/>
+      </div>
+      <div>
+        Quitado:
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="quitado" id="quitado_true" value={{True}} class="form-control"/>
+            <label for="quitado" class="form-check-label">Sim:</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input"  type="checkbox" name="quitado" id="quitado_false" value={{False}} class="form-control"/>
+          <label for="quitado_false" class="form-check-label">Não:</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+      </div>
     </form>
   </div>
   <hr>
