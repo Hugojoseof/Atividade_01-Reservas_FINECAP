@@ -25,7 +25,7 @@ def listagem(request):
     query = request.GET.get("q") if request.GET.get("q") is not None else ""
     data_reserva = request.GET.get("data_reserva") if request.GET.get("data_reserva") is not None else ""
     valor = request.GET.get("valor") if request.GET.get("valor") is not None else ""
-    quitado = request.GET.get("quitado") 
+    quitado = request.GET.get("quitado")
     print(quitado)
 
     if request.GET.get("q") is not None:
@@ -38,10 +38,9 @@ def listagem(request):
             reservas = reservas.filter(quitado=quitado)
     else:
         reservas = Reserva.objects.all()
-    
-    # eu fiz isso aqui manu
 
     paginator = Paginator(reservas, 5)
+    print(paginator.num_pages)
 
     page = request.GET.get('page')
     reservas_pagina = paginator.get_page(page)
@@ -52,7 +51,7 @@ def listagem(request):
         'valor': valor,
         'data_reserva': data_reserva,
         'quitado': quitado,
-    }) 
+    })
 
 
 def detalhes_reserva(request, reserva_id):
