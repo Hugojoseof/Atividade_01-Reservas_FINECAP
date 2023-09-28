@@ -1,5 +1,6 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Reserva
 from .forms import ReservaForm
@@ -37,9 +38,21 @@ def listagem(request):
             reservas = reservas.filter(quitado=quitado)
     else:
         reservas = Reserva.objects.all()
+    
+    # eu fiz isso aqui manu
 
-    return render(request, 'core/listagem.html', 
-                  {'reservas': reservas, 'query': query, 'valor':valor, 'data_reserva':data_reserva, 'quitado':quitado})  
+    paginator = Paginator(reservas, 5)
+
+    page = request.GET.get('page')
+    reservas_pagina = paginator.get_page(page)
+
+    return render(request, 'core/listagem.html', {
+        'reservas': reservas_pagina,
+        'query': query,
+        'valor': valor,
+        'data_reserva': data_reserva,
+        'quitado': quitado,
+    }) 
 
 
 def detalhes_reserva(request, reserva_id):
