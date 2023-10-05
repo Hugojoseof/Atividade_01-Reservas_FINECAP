@@ -1,5 +1,6 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import Reserva
 from .forms import ReservaForm
@@ -24,7 +25,7 @@ def listagem(request):
     query = request.GET.get("q") if request.GET.get("q") is not None else ""
     data_reserva = request.GET.get("data_reserva") if request.GET.get("data_reserva") is not None else ""
     valor = request.GET.get("valor") if request.GET.get("valor") is not None else ""
-    quitado = request.GET.get("quitado") 
+    quitado = request.GET.get("quitado")
     print(quitado)
 
     if request.GET.get("q") is not None:
@@ -38,8 +39,19 @@ def listagem(request):
     else:
         reservas = Reserva.objects.all()
 
-    return render(request, 'core/listagem.html', 
-                  {'reservas': reservas, 'query': query, 'valor':valor, 'data_reserva':data_reserva, 'quitado':quitado})  
+    paginator = Paginator(reservas, 5)
+    print(paginator.num_pages)
+
+    page = request.GET.get('page')
+    reservas_pagina = paginator.get_page(page)
+
+    return render(request, 'core/listagem.html', {
+        'reservas': reservas_pagina,
+        'query': query,
+        'valor': valor,
+        'data_reserva': data_reserva,
+        'quitado': quitado,
+    })
 
 
 def detalhes_reserva(request, reserva_id):
